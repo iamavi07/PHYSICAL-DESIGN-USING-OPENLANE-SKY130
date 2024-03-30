@@ -3,30 +3,7 @@ AUTHOR: AVINASH TANTI
 
 This repository documents my progress through the 2 Week Advanced Physical Design using OpenLANE/Sky130 workshop with complete RTL2GDSII flow organized by VSD as part of Level-3 of Chip Design for High School Program in collaboration with Intel India
 
-<!---
-![Digital_VLSI_SoC_Design_ _Planning_(RTL2GDSII_Flow)1](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/92eb860b-7a88-4c6f-8143-ad3e09fd9c5b)
-![Digital_VLSI_SoC_Design_ _Planning_(RTL2GDSII_Flow) (1)1](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/4285c5e4-d5df-43e4-b460-ead45ff67f9b)
-![Digital_VLSI_SoC_Design_ _Planning_(RTL2GDSII_Flow) (1)2](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/5b8bdb5f-95c7-41c0-b809-711b2b8ad171)
--->
-![Advanced_Physical_Design_using_OpenLANE_Sky130 (1)](https://github.com/fayizferosh/advanced-pd-using-openlane-sky130/assets/63997454/b90974a5-a8cd-4de7-aeaf-b519c88e372b)
-# Advanced Physical Design using OpenLANE/Sky130
-
-![Static Badge](https://img.shields.io/badge/OS-linux-orange)
-![Static Badge](https://img.shields.io/badge/EDA%20Tools-OpenLANE--Flow%2C_Yosys%2C_abc%2C_OpenROAD%2C_TritonRoute%2C_OpenSTA%2C_magic%2C_netgen%2C_GUNA-navy)
-![Static Badge](https://img.shields.io/badge/languages-verilog%2C_bash%2C_TCL-crimson)
-![GitHub last commit](https://img.shields.io/github/last-commit/fayizferosh/advanced-pd-using-openlane-sky130)
-![GitHub language count](https://img.shields.io/github/languages/count/fayizferosh/advanced-pd-using-openlane-sky130)
-![GitHub top language](https://img.shields.io/github/languages/top/fayizferosh/advanced-pd-using-openlane-sky130)
-![GitHub repo size](https://img.shields.io/github/repo-size/fayizferosh/advanced-pd-using-openlane-sky130)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/fayizferosh/advanced-pd-using-openlane-sky130)
-![GitHub repo file count (file type)](https://img.shields.io/github/directory-file-count/fayizferosh/advanced-pd-using-openlane-sky130)
-<!---
-Comments
--->
-
-> 2 Week Advanced Physical Design using OpenLANE/Sky130 workshop with complete RTL2GDSII flow organised by VSD as part of Level-3 of Chip Design for High School organised in collaboration with Intel India
-
-## Section 1 - Inception of open-source EDA, OpenLANE and Sky130 PDK (18/03/2024 - 19/03/2024)
+## Section 1 - Inception of open-source EDA, OpenLANE, and Sky130 PDK (18/03/2024 - 19/03/2024)
 
 ### Theory
 
@@ -37,7 +14,7 @@ Expand or Collapse
 
 #### Package
 
-* In any embedded board we have seen, the part of the board we consider as the chip is only the ***PACKAGE*** of the chip which is nothing but a protective layer or packet bound over the actual chip and the actual manufatured chip is usually present at the center of a package wherein, the connections from package is fed to the chip by ***WIRE BOUND*** method which is none other than basic wired connection.
+* In any embedded board we have seen, the part of the board we consider as the chip is only the ***PACKAGE*** of the chip which is nothing but a protective layer or packet bound over the actual chip and the actual manufactured chip is usually present at the center of a package wherein, the connections from package is fed to the chip by ***WIRE BOUND*** method which is none other than basic wired connection.
 
 ![image](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/7562205a-7435-46c7-a66e-de1626911f14)
 ![image](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/7005a9e3-79da-4590-bea0-eb3768127a3d)
