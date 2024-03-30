@@ -63,7 +63,8 @@ The ASIC design flow outlines the process of designing and fabricating an Applic
    - Once validated, the ASIC is ready for mass production.
    - Deploy the ASIC in the target application or market.
 
-![Design Flow](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/a3ba69f3-3d2a-4653-af35-ee4543156f2f)
+![Design Flow]![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/329f8418-93eb-4cf7-a33d-ce844012d08e)
+
 <br><br><br>
 
 ## OpenLane:
@@ -86,7 +87,8 @@ The ASIC design flow outlines the process of designing and fabricating an Applic
 
 The main goal of OpenLane was to create an open-source RTL to GDSII platform that generates a GDSII file without requiring human intervention. We can run OpenLane flow in **interactive mode** too using **"-interactive"** option. OpenLane design flow is described by the below image.
 
-![OpenLane Design Flow](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/2fc18871-5344-46de-afba-50dbf99a148a)<br>
+![OpenLane Design Flow]![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/dc4855df-cec1-4bbc-8e01-4fffd0683d7b)
+<br>
 
 <br>
 <br>
@@ -105,7 +107,8 @@ To list the tools and PDKs we will be using, follow these steps in your terminal
    cd work/
    cd tools/
    ls -ltr
-![vsdworkshop  Running  - Oracle VM VirtualBox 3_28_2024 10_31_20 AM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/572ba914-887d-4984-b2c5-a4393cd72091)
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_28_2024 10_31_20 AM]![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/ef50c22e-12cb-4ea6-b6d1-499dac790d76)
+
 
 
 
@@ -118,7 +121,8 @@ To list the tools and PDKs we will be using, follow these steps in your terminal
    cd openlane_working_dir/
    cd pdks/
    ls -ltr
-![Screenshot 3_28_2024 10_47_16 AM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/f12a72e3-d2bb-4f92-a0a1-7d92d8d50185)
+![Screenshot 3_28_2024 10_47_16 AM]![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/4a0ae4b5-3f72-4975-a1c2-3a12c27ac03d)
+
 
 
 
@@ -130,7 +134,8 @@ To list the tools and PDKs we will be using, follow these steps in your terminal
    cd tools/
    cd openlane_working_dir/
    cd openlane/
-![Captures 3_28_2024 10_58_25 AM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/bec472e7-0a47-4fe3-bd8f-4e38b2a66915)
+![Captures 3_28_2024 10_58_25 AM]![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/9ce83900-b55d-40ee-b6df-a9939e3e8a61)
+
 
    
 
@@ -140,7 +145,8 @@ To list the tools and PDKs we will be using, follow these steps in your terminal
    docker
    pwd
    ./flow.tcl -interactive
-![vsdworkshop  Running  - Oracle VM VirtualBox 3_28_2024 11_40_27 AM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/7bd8b59c-0a52-4cb7-9ca9-722eaf173601)
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_28_2024 11_40_27 AM]![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/e7efc385-c70f-4b3e-bd4b-b9fb45e87d41)
+
 <br><br><br>
 ## The design flow of Picorv32a:
 
@@ -159,12 +165,14 @@ After opening OpenLane in interactive mode as shown above, we will begin the flo
     prep -design picorv32a`
 
 If we list out the contents of picorv32a directory now we will see the new directory named runs created,
-![Captures 3_28_2024 12_30_39 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/0f34c256-4248-498e-9ba8-08e0e5a431e9)
+![Captures 3_28_2024 12_30_39 PM]![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/447c1b1b-8f20-4e4d-911c-671884346695)
+
 
 
 
 If we open the runs directory, we will find various new directories like `results`,`reports`logs`,`temp` created to store the various outputs of the design flow.
-![Captures 3_28_2024 12_34_25 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/bdc64ed1-d47e-4acf-bc06-3239e8743b0a)
+![Captures 3_28_2024 12_34_25 PM]![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/746ef496-c437-4acc-bfcd-c9bcdfba7f42)
+
 
 
 After preperation is completed we run synthesis using the command <br>
@@ -179,10 +187,12 @@ openlane will run synthesis as well as Static Timing Analysis (STA) under the ab
 **Flop Ratio:** It is the ratio of total number of D flip-flops to the total number of cells in a design.<br>
 flop ratio = number of D flip-flop ÷ total number of cells<br>
 <br>
-![vsdworkshop  Running  - Oracle VM VirtualBox 3_28_2024 1_17_45 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/d2ab6c29-c54d-4449-aed8-ce9c6c1a1896)
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_28_2024 1_17_45 PM]![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/8dfac853-d159-4c57-b419-92e2bcadb1e1)
+
 Total number of D flip-flop in the design = 1613 <br>
 <br>
-![New Issue · tejasbg19_VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK - Google Chrome 3_28_2024 1_18_51 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/e3ec3a0d-812d-4463-af47-c9b7781b8d4a)
+![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/ac67613d-e0d2-4d3f-aa90-17840d5e2e5e)
+
 Total number of cells in the design = 14876<br>
 therefore, flop ratio = 1613/14876 = 0.108429<br>
 Therefore, the flop percentage = 10.84%
@@ -191,13 +201,16 @@ After synthesis, we initiate floor planning using:<br>
 
    `run_floorplan`
 
-![Captures 3_28_2024 4_28_11 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/2a842f62-a80f-4b13-b678-e730a8b44299)
+![Captures 3_28_2024 4_28_11 PM]![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/f2d90d6e-55c0-4071-8f05-5a0d696ce281)
 
-![vsdworkshop  Running  - Oracle VM VirtualBox 3_28_2024 4_27_37 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/cfef4541-19d3-4b4d-ae74-a3fdafb08144)
+
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_28_2024 4_27_37 PM]![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/59668777-0588-426e-8cc5-891a292a1c15)
+
 
 ### Task-2:
 **Die Area:**
-![VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK_README md at main · tejasbg19_VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK - Google Chrome 3_28_2024 4_40_06 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/9ebe5c96-36fb-4f31-ba1a-f610de7fb3f4)
+![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/43823796-8276-4c77-839c-ad015e0311e0)
+
 
 Area of die in micrometer = (660685*671405)*10^(12) = 443587.21um
 
@@ -224,17 +237,20 @@ Open floor plan result & then pass the result to magic using below commands:
 
 
 picorv32a floor plan in magic:
-![vsdworkshop  Running  - Oracle VM VirtualBox 3_28_2024 5_01_06 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/c961dde3-e7cb-476a-a7b3-221a4519a97e)
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_28_2024 5_01_06 PM]![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/075180bf-f6a8-4413-8fd1-e0a0824a90b5)
+
 <br>
 zommed view of the die (select the section you want to zoom by placing cursor on it & pressing `s` key from keyboard and press `z` for zoom in and press `shift+z` to zoom out)
 
-![VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK_README md at main · tejasbg19_VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK - Google Chrome 3_28_2024 5_30_04 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/6c28cdb6-2fef-4c8f-bf90-ab68f0d6e225)
+![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/6be3fcc7-0d5b-4664-adbf-91a9777103e9)
+
 After floor planning, we initiate placement using the following command in OpenLane:
 
       
       run_placement
  
-![vsdworkshop  Running  - Oracle VM VirtualBox 3_28_2024 6_34_10 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/5f9bf537-ad15-4b11-be5c-3cbf4732be53)
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_28_2024 6_34_10 PM]![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/869b02f6-0d51-4f03-ac34-c04d23306dc4)
+
 
 We can visualize the placement in Magic using the following in terminal in `placement` directory of `result` directory:
      
@@ -245,13 +261,16 @@ We can visualize the placement in Magic using the following in terminal in `plac
 
 
 
-![vsdworkshop  Running  - Oracle VM VirtualBox 3_28_2024 6_34_41 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/863ed786-215e-4195-9c17-93c702dc2a5d)
-
-![vsdworkshop  Running  - Oracle VM VirtualBox 3_28_2024 6_35_00 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/d55fc273-2c5d-435a-90e5-33d179b2ee45)
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_28_2024 6_34_41 PM]![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/931eec16-fb18-45b0-b92a-ddccbed1abe1)
 
 
-Zoomed view of the placement with `power(Vdd & Vss) mesh` clrealy visible as well as `standard cells` placed in `standard cell row`.
-![vsdworkshop  Running  - Oracle VM VirtualBox 3_28_2024 6_59_26 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/5576a078-442c-405a-81bd-326c2320ba98)
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_28_2024 6_35_00 PM]![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/f98cba70-b241-4cc6-a226-19bafbfaae4f)
+
+
+
+Zoomed view of the placement with `power(Vdd & Vss) mesh` clearly visible as well as `standard cells` placed in `standard cell row`.
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_28_2024 6_59_26 PM]![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/ee6c59bb-dc5c-400b-8ed8-1018eaaaddcd)
+
 
 
 # Day-3
@@ -272,7 +291,8 @@ Now we need to copy the magic tech files from pdks directory to our vsdstcelldes
 
          cd /Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic
          cp sky130A.tech Home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/vsdstdcelldesign
-![vsdworkshop  Running  - Oracle VM VirtualBox 3_29_2024 1_43_30 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/1fcdb152-1de9-490b-befb-dd4ab91e858e)
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_29_2024 1_43_30 PM]![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/031697ec-7f35-4023-a15f-f9bb05e6678e)
+
          
 <br> <br>         
 
