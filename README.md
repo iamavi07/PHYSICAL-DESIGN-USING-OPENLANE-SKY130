@@ -3,644 +3,446 @@ AUTHOR: AVINASH TANTI
 
 This repository documents my progress through the 2 Week Advanced Physical Design using OpenLANE/Sky130 workshop with complete RTL2GDSII flow organized by VSD as part of Level-3 of Chip Design for High School Program in collaboration with Intel India
 
-## Section 1 - Inception of open-source EDA, OpenLANE, and Sky130 PDK (18/03/2024 - 19/03/2024)
+## Section 1 - Inception of open-source EDA, OpenLANE, and Sky130 PDK DAY-1
 
-### Theory
+## Introduction
 
-<details>
-  <summary>
-Expand or Collapse
-  </summary>
+**ASIC** stands for **Application-Specific Integrated Circuit**. An ASIC is a type of integrated circuit (IC) that is designed for a specific application or purpose. Unlike general-purpose ICs such as microprocessors or memory chips, which are designed to perform a wide range of functions, ASICs are tailored to perform a single function or a set of closely related functions efficiently.
+## Types of ASICs
 
-#### Package
+1. **Full-Custom ASICs**:
+   - Designed from scratch, offering maximum performance and customization.
+   - Require significant time, expertise, and cost for development.
 
-* In any embedded board we have seen, the part of the board we consider as the chip is only the ***PACKAGE*** of the chip which is nothing but a protective layer or packet bound over the actual chip and the actual manufactured chip is usually present at the center of a package wherein, the connections from package is fed to the chip by ***WIRE BOUND*** method which is none other than basic wired connection.
+2. **Semi-Custom ASICs**:
+   - Utilize pre-designed and pre-verified blocks (IP cores or libraries) along with custom-designed portions.
+   - Strike a balance between performance and design effort.
 
-![image](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/7562205a-7435-46c7-a66e-de1626911f14)
-![image](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/7005a9e3-79da-4590-bea0-eb3768127a3d)
-![image](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/70b1c678-2a2e-484f-9181-812dbcd5f0a3)
+3. **Programmable ASICs (FPGAs)**:
+   - While not strictly ASICs, Field-Programmable Gate Arrays (FPGAs) offer reconfigurable logic.
+   - Can be programmed to perform specific functions, providing flexibility similar to ASICs but with less performance optimization.
 
-#### Chip
+## ASIC Design Flow
 
-* Now, taking a look inside the chip, all the signals from the external world to the chip and vice versa is passed through ***PADS***. The area bound by the pads is ***CORE*** where all the digital logic of the chip is placed. Both the core and pads make up the ***DIE*** which is the basic manufacturing unit in regards to semiconductor chips.
+The ASIC design flow outlines the process of designing and fabricating an Application-Specific Integrated Circuit. The flow can be boardly be clasified into **Front End** & **Back End**:<br>
 
-![image](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/d65a0ddf-2f86-4bbc-8d36-b02e09a1483e)
+-**Front End** involes the following steps:
 
-* ***FOUNDRY*** is the place where the semiconductor chips are manufactured and ***FOUNDRY IP's*** are Intellectual Properties based on a specific foundry and these IP's require a specific level of intelligence to be produced whereas, repeatable digital logic blocks are called ***MACROS***.
+1. **Specification and Architecture Definition**:
+   - Define the requirements and functionality of the ASIC.
+   - Create the architectural design, including block diagrams and high-level logic.
 
-![image](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/ed1cd25e-6270-4b84-8f0d-f0ea7c8a7ef8)
+2. **RTL Design and Simulation**:
+   - Write Register Transfer Level (RTL) code using hardware description languages like Verilog or VHDL.
+   - Simulate the RTL design to verify functionality and performance using tools like ModelSim or VCS.
 
-#### ISA (Intruction Set Architecture)
+3. **Synthesis & Gate Level Netlist**:
+   - Convert the RTL code into a gate-level netlist using synthesis tools such as Synopsys Design Compiler or Cadence Genus.
+   - Optimize the netlist for area, power, and timing constraints.<br>
 
-* A C program which has to be run on a specific hardware layout which is the interior of a chip in your laptop, there is certain flow to be followed.
-* Initially, this particular C program is compiled in it's assembly language program which is nothing but ***RISC-V ISA (Reduced Instruction Set Compting - V Intruction Set Architecture)***.
-* Following this, the assembly language program is then converted to machine language program which is the binary language logic 0 and 1 which is understood by the hardware of the computer.
-* Directly after this, we've to implement this RISC-V specification using some ***RTL (a Hardware Description Language)***. Finally, from the RTL to ***Layout*** it is a standard PnR or RTL to GDSII flow.
 
-![Screenshot (278)](https://github.com/fayizferosh/risc-v-myth-report/assets/63997454/7dc4601a-e386-48e5-9d1f-7fa5b47ca0ba)
+-**Back End** involves the following steps:
 
-* For an application software to be run on a hardware there are several processes taking place. To begin with, the apps enters into a block called system software and it converts the application program to binary language. There are various layers in system software in which the major layers or components are OS (Operating System), Compiler and Assembler.
-* At first the OS outputs are small function in C, C++, VB or Java language which are taken by the respective compiler and converted into instructions and the syntax of these instructions varies with the hardware architecture on which the system is implemented.
-* Then, the job of the assembler is to take these instructions and convert it into it's binary format which is basically called as a machine language program. Finally, this binary language is fed to the hardware and it understands the specific functions it has to perform based on the binary code it receives.
+4. **Static Timing Analysis (STA)**:
+   - Perform STA to ensure that timing requirements are met and that there are no violations.
+   - Address any timing issues through design modifications or constraints.
 
-![Screenshot (279)](https://github.com/fayizferosh/risc-v-myth-report/assets/63997454/19e8b634-f209-41a6-928d-6fba66f5b177)
+5. **Floorplanning and Place-and-Route**:
+   - Define the physical layout of the ASIC including placement of functional blocks and routing channels.
+   - Use tools like Cadence Innovus or Synopsys ICC for automated place-and-route.
 
-* For example, if we take a stopwatch app on RISC-V core, then the output of the OS could be a small C function which enters into the compiler and we get output RISC-V instructions following this, the output of the assembler will be the binary code which enters into your chip layout.
+6. **Physical Verification**:
+   - Perform Design Rule Checking (DRC) and Layout vs. Schematic (LVS) checks to ensure layout correctness and adherence to manufacturing rules.
+   - Address any violations found during physical verification.
+   - GDS II file will be forwarded to foundry.
+7. **Post-Silicon Validation**:
+   - Fabricate the ASIC using semiconductor manufacturing processes.
+   - Test and validate the fabricated ASIC to ensure functionality and performance meet specifications.
 
-![Screenshot (280)](https://github.com/fayizferosh/risc-v-myth-report/assets/63997454/7d4570ca-82a6-4abe-81d2-067ebb9b2c15)
+8. **Production and Deployment**:
+   - Once validated, the ASIC is ready for mass production.
+   - Deploy the ASIC in the target application or market.
 
-* For the above stopwatch the following are the input and output of the compiler and assembler.
+![Design Flow](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/a3ba69f3-3d2a-4653-af35-ee4543156f2f)
+<br><br><br>
 
-![Screenshot (281)](https://github.com/fayizferosh/risc-v-myth-report/assets/63997454/d7b7fd1b-21ee-46b7-9a91-8314bd753a51)
+## OpenLane:
 
-* The output of the compiler are instructions and the output of the assembler is the binary pattern. Now, we need some RTL (a Hardware Description Language) which understands and implements the particular instructions. Then, this RTL is synthesised into a netlist in form of gates which is fabricated into the chip through a physical design implementation.
+**OpenLane** uses SkyWater's 130nm Process Design Kit (PDK) and incorporates many open-source Electronic Design Automation (EDA) tools for each of the above-mentioned flow steps. Some of the EDA tools used in OpenLane include:
 
-![Screenshot (282)](https://github.com/fayizferosh/risc-v-myth-report/assets/63997454/e349cb06-45e3-4ae4-b85f-9020a0a62737)
+- RTL Synthesis, Technology Mapping, and Formal Verification: Yosys + ABC
+- Static Timing Analysis: OpenSTA
+- Floor Planning: init_fp, ioPlacer, pdn, and tapcell
+- Placement: RePLace (Global), Resizer, OpenPhySyn (formerly), OpenDP (Detailed)
+- Clock Tree Synthesis: TritonCTS
+- Fill Insertion: OpenDP/filler_placement
+- Routing: FastRoute or CU-GR (formerly), TritonRoute (Detailed) or DR-CU
+- SPEF Extraction: OpenRCX or SPEF-Extractor (formerly)
+- GDSII Streaming out: Magic and KLayout
+- DRC Checks: Magic and KLayout
+- LVS check: Netgen
+- Antenna Checks: Magic
+- Circuit Validity Checker: CVC
 
-* There are mainly 3 different parts in this course. They are:
-1. RISC-V ISA
-2. RTL and synthesis of RISC-V based CPU core - picorv32
-3. Physical design implementation of picorv32
+The main goal of OpenLane was to create an open-source RTL to GDSII platform that generates a GDSII file without requiring human intervention. We can run OpenLane flow in **interactive mode** too using **"-interactive"** option. OpenLane design flow is described by the below image.
 
-![Screenshot (283)](https://github.com/fayizferosh/risc-v-myth-report/assets/63997454/832f0ea6-2d60-4d9a-937c-a2dedd5f8cac)
+![OpenLane Design Flow](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/2fc18871-5344-46de-afba-50dbf99a148a)<br>
 
-#### Open-source Implementation
+<br>
+<br>
+<br>
 
-* For open-source ASIC design implemantation, we require the following enablers to be readily available as open-source versions. They are:-
-1. RTL Designs
-2. EDA Tools
-3. PDK Data
 
-* Initially in the early ages, the design and fabrication of IC's were tightly coupled and were only practiced by very few companies like TI, Intel, etc.
-* In 1979, Lynn Conway and Carver Mead came up with an idea to saperate the design from the fabrication and to do this they inroduced structured design methodologies based on the λ-based design rules and published the first VLSI book "Introduction to VLSI System" which started the VLSI education.
-* This methodology resulted in the emergence of the design only companies or ***"Fabless Companies"*** and fabrication only companies that we usually refer to as ***"Pure Play Fabs"***.
-* The inteface between the designers and the fab by now became a set of data files and documents, that are reffered to as the ***"Process Design Kits (PDKs)"***.
-* The PDK include but not limited to Device Models, Technology Information, Design Rules, Digital Standard Cell Libraries, I/O Libraries and many more.
-* Since, the PDK contained variety of informations, and so they were distributed only under NDAs (Non-Disclosure Agreements) which made it in-accessible to the public.
-* Recently, Google worked out an agreement with skywater to open-source the PDK for the 130nm process by skywater Technology, as a result on 30 June 2020 Google released the first ever open-source PDK.
+## Getting Started
 
-![image](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/87384374-e66b-4ec6-b9c4-3fb92ad4d275)
+To list the tools and PDKs we will be using, follow these steps in your terminal:
 
-* ASIC design is a complex step that involves tons of steps, various methodologies and respective EDA tools which are all required for successful ASIC implementation which is achieved though an ASIC flow which is nothing but a piece of software that pulls different tools togather to carry out the design process.
+1. Navigate to the work folder on your desktop using the `cd` command:
+   ```bash
+   cd Desktop/
+   cd work/
+   cd vsdflow/
+   cd work/
+   cd tools/
+   ls -ltr
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_28_2024 10_31_20 AM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/572ba914-887d-4984-b2c5-a4393cd72091)
 
-![image](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/1762d6d6-c5f8-4bd9-8a3d-968eb4360889)
 
-#### OpenLANE Open-source ASIC Design Implementation Flow
 
-* The main objective of the ASIC Design Flow is to take the design from the RTL (Register Transfer Level) all the way to the GDSII, which is the format used for the final fabrication layout.
 
-![image](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/533f58ee-4524-4a18-abb5-36b4d6a56b1f)
+2. To list all the PDKs:
+   ```bash
+   cd Desktop/
+   cd work/
+   cd tools/
+   cd openlane_working_dir/
+   cd pdks/
+   ls -ltr
+![Screenshot 3_28_2024 10_47_16 AM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/f12a72e3-d2bb-4f92-a0a1-7d92d8d50185)
 
-* Synthesis is the process of convertion or translation of design RTL into circuits made out of Standard Cell Libraries (SCL) the resultant circuit is described in HDL and is usually reffered to as the Gate-Level Netlist.
-* Gate-Level Netlist is functionally equivalent to the RTL.
 
-![image](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/e43891a0-ab09-4df2-898d-7e843158e936)
 
-* The fundemental building blocks which are the standard cells have regular layouts.
-* Each cell has different views/models which are utilised by different EDA tools like liberty view with electrical models of the cells, HDL behavioral models, SPICE or CDL views of the cells, Layout view which include GDSII view which is the detailed view and LEF view which is the abstract view.
 
-![image](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/48df884c-c894-4a2a-a511-09321c208d6b)
+3. Whatever work we will be doing, it will be in the openlane directory, to open it follow the below steps in terminal,
+   ```bash
+   cd Desktop/
+   cd work/
+   cd tools/
+   cd openlane_working_dir/
+   cd openlane/
+![Captures 3_28_2024 10_58_25 AM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/bec472e7-0a47-4fe3-bd8f-4e38b2a66915)
 
-* Chip Floor Planning
+   
 
-![image](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/38ecd866-ac83-42c7-83ba-2ba995f9ba4e)
 
-* Macro Floor Planning
+4. To run OpenLane in interactive mode follow the following steps after opening the openlane directory as shown in above image:
+   ```bash
+   docker
+   pwd
+   ./flow.tcl -interactive
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_28_2024 11_40_27 AM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/7bd8b59c-0a52-4cb7-9ca9-722eaf173601)
+<br><br><br>
+## The design flow of Picorv32a:
 
-![image](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/35ac760c-bba9-4bd1-9c65-e8ceeee2ccf5)
 
-* Power Planning typically uses upper metal layers for power distribution since thay are thicker than lower metal layers and so have lower resistance and PP is done to avoid electron migration and IR drops.
+When we open the picorv32a directory in the terminal under the designs directory of the OpenLane directory, we will only see 3 files:
 
-![image](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/f18013a7-e4c7-4a6d-ba53-33362c04689a)
+- `SRC` (which contains a Verilog-A file "picorv32a.v" & an SDC file that contains design constraints and timing assignments "picorv32a.sdc")
+- `sky130A_sky130_fd_sc_hd_config.tcl`
+- `config.tcl`
 
-* Placement
+The order of timing and design parameters is as follows: `sky130A_sky130_fd_sc_hd_config.tcl` > `config.tcl` > `OpenLane default values`.
 
-![image](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/3654398b-40bc-4e42-9205-77f673d5584c)
+After opening OpenLane in interactive mode as shown above, we will begin the flow by creating various files needed using the command:
 
-* Global placement provide approximate locations for all cells based on connectivity but in this stage the cells may be overlapped on each other and in detailed placement the positions obtained from global placements are minimally altered to make it legal (non-overlapping and in site-rows)
+    `package require openlane 0.9<br>
+    prep -design picorv32a`
 
-![image](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/817c504d-0b8e-4a0a-9c3c-e9d110c23535)
+If we list out the contents of picorv32a directory now we will see the new directory named runs created,
+![Captures 3_28_2024 12_30_39 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/0f34c256-4248-498e-9ba8-08e0e5a431e9)
 
-* Clock Tree Synthesis
 
-![image](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/6db284d4-065f-450a-9200-a6e6cbfd7fbb)
 
-* Clock skew is the time difference in arrival of clock at different components.
-* Routing
+If we open the runs directory, we will find various new directories like `results`,`reports`logs`,`temp` created to store the various outputs of the design flow.
+![Captures 3_28_2024 12_34_25 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/bdc64ed1-d47e-4acf-bc06-3239e8743b0a)
 
-![image](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/7458495f-b527-4f21-813e-8dbcbf29ed9b)
 
-* skywater PDK has 6 routing layers in which the lowest layer is called the local interconnect layer which is a Titanium Nitride layer the following 5 layers are all Aluminium layers.
+After preperation is completed we run synthesis using the command <br>
+`run_synthesis`
+<br>
+openlane will run synthesis as well as Static Timing Analysis (STA) under the above command itself. After completion of the synthesis we will get a report as shown below.
 
-![stackup](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/e4438c12-d83e-4083-a58f-33a410a47927)
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_28_2024 12_49_19 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/9e57ba65-928a-43e6-bfcd-955d481f05e1)
 
-* Global and Detailed Routing
 
-![image](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/b54ebd4c-127a-441f-829e-6000531e9b8d)
+### Task-1:
+**Flop Ratio:** It is the ratio of total number of D flip-flops to the total number of cells in a design.<br>
+flop ratio = number of D flip-flop ÷ total number of cells<br>
+<br>
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_28_2024 1_17_45 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/d2ab6c29-c54d-4449-aed8-ce9c6c1a1896)
+Total number of D flip-flop in the design = 1613 <br>
+<br>
+![New Issue · tejasbg19_VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK - Google Chrome 3_28_2024 1_18_51 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/e3ec3a0d-812d-4463-af47-c9b7781b8d4a)
+Total number of cells in the design = 14876<br>
+therefore, flop ratio = 1613/14876 = 0.108429<br>
+Therefore, the flop percentage = 10.84%
 
-* Once done with the routing the final layout can be generated which undergoes various Sign-Off checks.
-* Design Rules Checking (DRC) which verifies that the final layout honours all design fabrication rules.
-* Layout Vs Schematic (LVS) which verifies that the final layout functionality matches the gate-level netlist that we started with.
-* Static Timing Analysis (STA) to verify that the design runs at the designated clock frequency.
+After synthesis, we initiate floor planning using:<br>
 
-![image](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/d8bc72cd-2fe9-4ae2-9431-68a6fa77c671)
+   `run_floorplan`
 
-</details>
+![Captures 3_28_2024 4_28_11 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/2a842f62-a80f-4b13-b678-e730a8b44299)
 
-### Implementation
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_28_2024 4_27_37 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/cfef4541-19d3-4b4d-ae74-a3fdafb08144)
 
-Section 1 tasks:- 
-1. Run 'picorv32a' design synthesis using OpenLANE flow and generate necessary outputs.
-2. Calculate the flop ratio.
+### Task-2:
+**Die Area:**
+![VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK_README md at main · tejasbg19_VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK - Google Chrome 3_28_2024 4_40_06 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/9ebe5c96-36fb-4f31-ba1a-f610de7fb3f4)
 
-```math
-Flop\ Ratio = \frac{Number\ of\ D\ Flip\ Flops}{Total\ Number\ of\ Cells}
-```
-```math
-Percentage\ of\ DFF's = Flop\ Ratio * 100
-```
+Area of die in micrometer = (660685*671405)*10^(12) = 443587.21um
 
-* All section 1 logs, reports and results can be found in following run folder:
+#### Visualizing the floor plan using Magic:<br>
+User
+Area of die in micrometer = (660685*671405)*10^(12) = 443587.21um
 
-[Section 1 Run - 15-03_15-51](https://github.com/fayizferosh/advanced-pd-using-openlane-sky130/tree/main/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/15-03_15-51)
+#### Visualizing the floor plan using Magic:<br>
+Open floor plan result & then pass the result to magic using below commands:
+3. Whatever work we will be doing, it will be in the openlane directory, to open it follow the below steps in terminal,
+  
+         cd Desktop/
+         cd work/
+         cd tools/
+         cd openlane_working_dir/
+         cd openlane/
+         cd designs/
+         cd picorv32a/
+         cd runs/
+         cd 28-03_06-26/
+         cd results/
+         cd floorplan
+         magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.floorplan.def &
 
-#### 1. Run 'picorv32a' design synthesis using OpenLANE flow and generate necessary outputs.
 
-Commands to invoke the OpenLANE flow and perform synthesis
+picorv32a floor plan in magic:
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_28_2024 5_01_06 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/c961dde3-e7cb-476a-a7b3-221a4519a97e)
+<br>
+zommed view of the die (select the section you want to zoom by placing cursor on it & pressing `s` key from keyboard and press `z` for zoom in and press `shift+z` to zoom out)
 
-```bash
-# Change directory to openlane flow directory
-cd Desktop/work/tools/openlane_working_dir/openlane
+![VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK_README md at main · tejasbg19_VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK - Google Chrome 3_28_2024 5_30_04 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/6c28cdb6-2fef-4c8f-bf90-ab68f0d6e225)
+After floor planning, we initiate placement using the following command in OpenLane:
 
-# alias docker='docker run -it -v $(pwd):/openLANE_flow -v $PDK_ROOT:$PDK_ROOT -e PDK_ROOT=$PDK_ROOT -u $(id -u $USER):$(id -g $USER) efabless/openlane:v0.21'
-# Since we have aliased the long command to 'docker' we can invoke the OpenLANE flow docker sub-system by just running this command
-docker
-```
-```tcl
-# Now that we have entered the OpenLANE flow contained docker sub-system we can invoke the OpenLANE flow in the Interactive mode using the following command
-./flow.tcl -interactive
+      
+      run_placement
+ 
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_28_2024 6_34_10 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/5f9bf537-ad15-4b11-be5c-3cbf4732be53)
 
-# Now that OpenLANE flow is open we have to input the required packages for proper functionality of the OpenLANE flow
-package require openlane 0.9
+We can visualize the placement in Magic using the following in terminal in `placement` directory of `result` directory:
+     
+      
+      
+      magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def &
 
-# Now the OpenLANE flow is ready to run any design and initially we have to prep the design creating some necessary files and directories for running a specific design which in our case is 'picorv32a'
-prep -design picorv32a
 
-# Now that the design is prepped and ready, we can run synthesis using following command
-run_synthesis
 
-# Exit from OpenLANE flow
-exit
 
-# Exit from OpenLANE flow docker sub-system
-exit
-```
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_28_2024 6_34_41 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/863ed786-215e-4195-9c17-93c702dc2a5d)
 
-Screenshots of running each commands
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_28_2024 6_35_00 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/d55fc273-2c5d-435a-90e5-33d179b2ee45)
 
-![1](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/d19f6d0f-16f8-4e79-aa5a-f2a34b9fb203)
-![2](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/5e03c8ca-8c7f-4579-a7bc-10161007910e)
-![3](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/5f196a31-059e-4192-a208-8a15ba1a0dd7)
 
-#### 2. Calculate the flop ratio.
+Zoomed view of the placement with `power(Vdd & Vss) mesh` clrealy visible as well as `standard cells` placed in `standard cell row`.
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_28_2024 6_59_26 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/5576a078-442c-405a-81bd-326c2320ba98)
 
-Screenshots of synthesis statistics report file with required values highlighted
 
-![Screenshot from 2024-03-15 22-02-42](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/9280fefc-80b2-44ef-af34-ef3bddd3c14e)
-![Screenshot from 2024-03-15 22-03-39](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/3275f46c-19d7-42c5-8984-96d455f6e09b)
+# Day-3
 
-Calculation of Flop Ratio and DFF % from synthesis statistics report file
+## Importing vsdstdcell design from GitHub & analyzing using Magic Layout:
 
-```math
-Flop\ Ratio = \frac{1613}{14876} = 0.108429685
-```
-```math
-Percentage\ of\ DFF's = 0.108429685 * 100 = 10.84296854\ \%
-```
+We need to clone the custom standard inverter repo [vsdstdcelldesign](https://github.com/nickson-jose/vsdstdcelldesign).
+Follow the following steps in terminal to clone the above mentioned repo into openlane directory.
+       
+         cd Desktop/work/tools/openlane_working_dir/openlane
+         git clone https://github.com/nickson-jose/vsdstdcelldesign
 
-## Section 2 - Good floorplan vs bad floorplan and introduction to library cells (20/03/2024 - 21/03/2024)
 
-### Theory
+We can verify weather the cloning was sucessful or not using `ls -ltr` to list the contents of openlane directory.
+Now we need to copy the magic tech files from pdks directory to our vsdstcelldesign directory to avoid giving the complete address of tech file every time we use `magic -T` command to view the layout, navigateto the magic tech files and follow the steps shown below,
 
-### Implementation
 
-Section 2 tasks:- 
-1. Run 'picorv32a' design floorplan using OpenLANE flow and generate necessary outputs.
-2. Calculate the die area in microns from the values in floorplan def.
-3. Load generated floorplan def in magic tool and explore the floorplan.
-4. Run 'picorv32a' design congestion aware placement using OpenLANE flow and generate necessary outputs.
-5. Load generated placement def in magic tool and explore the placement.
 
-```math
-Area\ of\ die\ in\ microns = Die\ width\ in\ microns * Die\ height\ in\ microns
-```
+         cd /Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic
+         cp sky130A.tech Home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/vsdstdcelldesign
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_29_2024 1_43_30 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/1fcdb152-1de9-490b-befb-dd4ab91e858e)
+         
+<br> <br>         
 
-* All section 2 logs, reports and results can be found in following run folder:
+now we can open the downloaded vsdstdcell inverter using magic tool,
 
-[Section 2 Run - 17-03_12-06](https://github.com/fayizferosh/advanced-pd-using-openlane-sky130/tree/main/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/17-03_12-06)
+      cd Desktop/work/tools/openlane_working_dir/openlane/vsdstdcelldesign
+      magic -T sky130A.tech sky130_inv.mag &
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_29_2024 3_07_38 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/6a7dd1f6-8836-467b-a9a0-1660831de442)
 
-#### 1. Run 'picorv32a' design floorplan using OpenLANE flow and generate necessary outputs.
+### Verifying the different layers & connection of the inverter:
 
-Commands to invoke the OpenLANE flow and perform floorplan
+To know about a layer, place your cursor on it and press `s` from your keyboard, which will select the layer/cell, now type `what` in `tkcon` window of magic, it will give the name of the layer. 
 
-```bash
-# Change directory to openlane flow directory
-cd Desktop/work/tools/openlane_working_dir/openlane
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_29_2024 8_01_57 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/e617479b-38a2-4f1e-aa2f-d0cfd52cc2ea)
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_29_2024 8_19_19 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/24eb9790-be42-444d-ad42-4d4c8809a4f7)
+To verify or know about the connectivity of a layer, place your cursor on the layer and press `s` twice or thrice, magic will highlight all the connections of the desired layer.
 
-# alias docker='docker run -it -v $(pwd):/openLANE_flow -v $PDK_ROOT:$PDK_ROOT -e PDK_ROOT=$PDK_ROOT -u $(id -u $USER):$(id -g $USER) efabless/openlane:v0.21'
-# Since we have aliased the long command to 'docker' we can invoke the OpenLANE flow docker sub-system by just running this command
-docker
-```
-```tcl
-# Now that we have entered the OpenLANE flow contained docker sub-system we can invoke the OpenLANE flow in the Interactive mode using the following command
-./flow.tcl -interactive
 
-# Now that OpenLANE flow is open we have to input the required packages for proper functionality of the OpenLANE flow
-package require openlane 0.9
+Verifying the connectivity of output with the drain of PMOS & NMOS
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_29_2024 8_21_43 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/cc969c7c-b5b6-4a55-8096-4cd87e5228f8)
 
-# Now the OpenLANE flow is ready to run any design and initially we have to prep the design creating some necessary files and directories for running a specific design which in our case is 'picorv32a'
-prep -design picorv32a
 
-# Now that the design is prepped and ready, we can run synthesis using following command
-run_synthesis
+Verifying the connectivity of source of PMOS to Vdd
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_29_2024 8_22_00 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/fe69c136-3cef-422c-8dc6-11a1f4b90988)
 
-# Now we can run floorplan
-run_floorplan
-```
+### DRC error in Magic
 
-Screenshot of floorplan run
+Whenever a DRC error occurs, find the error by navigating to `DRC` in magic and clicking on `DRC Find next error`, the tkcon window will display what error we have & according to that design needs to be corrected.
 
-![Screenshot from 2024-03-17 18-06-19](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/7deda325-2ae8-4e98-aa71-7a54f5c34fcb)
-![Screenshot from 2024-03-17 18-06-36](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/c1fe538f-c58f-46b9-9466-b0873a88eb6c)
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_29_2024 9_42_54 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/14a473eb-bc9e-4f8a-8945-8e2b482b69d9)
 
-#### 2. Calculate the die area in microns from the values in floorplan def.
 
-Screenshot of contents of floorplan def
+DRC error being highlighted
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_29_2024 9_43_04 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/be0a4ec7-bf2c-4318-9a06-65f84de62235)
 
-![Screenshot from 2024-03-17 18-34-53](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/9a0baa93-7db6-4148-b155-49b18c130522)
 
-According to floorplan def
-```math
-1000\ Unit\ Distance = 1\ Micron
-```
-```math
-Die\ width\ in\ unit\ distance = 660685 - 0 = 660685
-```
-```math
-Die\ height\ in\ unit\ distance = 671405 - 0 = 671405
-```
-```math
-Distance\ in\ microns = \frac{Value\ in\ Unit\ Distance}{1000}
-```
-```math
-Die\ width\ in\ microns = \frac{660685}{1000} = 660.685\ Microns
-```
-```math
-Die\ height\ in\ microns = \frac{671405}{1000} = 671.405\ Microns
-```
-```math
-Area\ of\ die\ in\ microns = 660.685 * 671.405 = 443587.212425\ Square\ Microns
-```
+`tkcon` window showing the error.
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_29_2024 9_43_10 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/0a319b14-0fd8-4534-8ef5-c7733f261cda)
 
-#### 3. Load generated floorplan def in magic tool and explore the floorplan.
 
-Commands to load floorplan def in magic in another terminal
 
-```bash
-# Change directory to path containing generated floorplan def
-cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/17-03_12-06/results/floorplan/
+### SPICE extraction of inverter
 
-# Command to load the floorplan def in magic tool
-magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.floorplan.def &
-```
+To know in which which directory our tkcon window is opened used `pwd` command. Then use the command `extract all` command in tkcon window, this will create a new `.ext` in the same directory.
 
-Screenshots of floorplan def in magic
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_30_2024 10_27_43 AM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/8e54c161-3ba3-453e-9a78-6b859fe3c6f9)
 
-![Screenshot from 2024-03-17 18-05-19](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/93af15d9-ba65-49d4-8e98-ad1d0c4b0097)
 
-Equidistant placement of ports
+Verifying weather `.ext` file has been created or not.
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_30_2024 10_27_51 AM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/c7e44a72-1454-4ffc-bf13-8d16ada01bc0)
 
-![Screenshot from 2024-03-17 18-14-28](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/6183e357-315c-40df-9bc3-e7993d76b19c)
 
-Port layer as set through config.tcl
 
-![Screenshot from 2024-03-17 18-17-46](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/4e35528c-1bb1-4eaa-84be-14a95e532b75)
-![Screenshot from 2024-03-17 18-19-50](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/a88afbbd-6d63-4ce5-a1ec-620dd8c37f45)
+To get SPICE of `.spice` format, we use the following commands 
 
-Decap Cells and Tap Cells
 
-![Screenshot from 2024-03-17 18-22-57](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/c1714ed1-7cdd-4b3c-8e0b-e4f97270ef82)
+      ext2spice cthresh 0 rthresh 0
+      ext2spice
 
-Diogonally equidistant Tap cells
+To open the SPICE file, use the command `less (file name)`
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_30_2024 10_34_41 AM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/c6e3931c-fb2b-4818-928a-171819e4922d)
 
-![Screenshot from 2024-03-17 18-25-28](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/6f62f639-81cc-4e5d-8b5c-ea5b209125ba)
 
-Unplaced standard cells at the origin
+To measure the size of unit grid box in magic, select one grid box & use the command `box` in `tkcon` window, whose output will look like the below image
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_30_2024 10_54_46 AM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/22e8c79f-d856-45f9-a766-19e26a5cbdf8)
 
-![Screenshot from 2024-03-17 18-31-41](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/f875937c-cec4-4c2c-8c4b-6808d81821d6)
 
-#### 4. Run 'picorv32a' design congestion aware placement using OpenLANE flow and generate necessary outputs.
+### Editing the SPICE file
 
-Command to run placement
+`.spice` is edited as shown below in txt editor
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_30_2024 11_40_28 AM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/c82377c4-4358-4517-9c74-b2cf8deb3b94)
 
-```tcl
-# Congestion aware placement by default
-run_placement
-```
 
-Screenshots of placement run
+after editing, install the ngspice simulator & run the `.spice` file as shown below
+    
+      
 
-![Screenshot from 2024-03-17 22-44-17](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/3ddaf32e-fdbb-4410-bfe6-7ea6b2640438)
-![Screenshot from 2024-03-17 22-46-27](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/e6b36b9b-b9bc-4390-84fd-a10d23e2246f)
+      sudo apt install ngspice 
+      // password= vsdiat
+      ngspice sky130_inv.spice
 
-#### 5. Load generated placement def in magic tool and explore the placement.
+The above code should give you below output
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_30_2024 11_42_21 AM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/7c12b973-5d9d-4e65-90b2-5c69c882c08d)
 
-Commands to load placement def in magic in another terminal
 
-```bash
-# Change directory to path containing generated placement def
-cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/17-03_12-06/results/placement/
+To plot the output, 
 
-# Command to load the placement def in magic tool
-magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def &
-```
 
-Screenshots of floorplan def in magic
+      plot y vs time a 
 
-![Screenshot from 2024-03-17 22-58-44](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/e703ef0b-3968-4132-a9c7-05b53f50b214)
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_30_2024 11_48_13 AM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/d2b0bb1f-250b-421c-8345-05a31317aed9)
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_30_2024 11_49_35 AM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/025bfaeb-fa58-4c3f-a70c-f0de7cb567de)
 
-Standard cells legally placed 
 
-![Screenshot from 2024-03-17 23-04-20](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/54911138-f942-48b9-b4e9-61d741a4b5ac)
+### Task-3
+#### Characterization of the plot:
+**Rise Transition:** The time taken by the output waveform to transit from a value of 20% of the maximum value to the 80 % of the maximum value.
 
-Commands to exit from current run
+Using right click, a new zoomed plot window cab be opened
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_30_2024 12_07_22 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/b86c759b-166c-4617-811a-603cc5b49962)
 
-```tcl
-# Exit from OpenLANE flow
-exit
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_30_2024 12_08_25 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/f5f38019-1d2d-4509-9f9b-398eaba23784)
 
-# Exit from OpenLANE flow docker sub-system
-exit
-```
 
-## Section 3 - Design library cell using Magic Layout and ngspice characterization (22/03/2024 - 25/03/2024)
+ngspice will give the x & y coordinates of a point by just clicking on the points in plot.
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_30_2024 12_22_30 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/b553a03c-deb5-4485-9830-cd9d89d3c804)
 
-### Theory
+Therefore, Rise transition time = (2.24684 - 2.18233)ns = 0.06451ns 
 
-### Implementation
 
-* Section 3 tasks:-
-1. Clone custom inverter standard cell design from github repository: [Standard cell design and characterization using OpenLANE flow](https://github.com/nickson-jose/vsdstdcelldesign).
-2. Load the custom inverter layout in magic and explore.
-3. Spice extraction of inverter in magic.
-4. Editing the spice model file for analysis through simulation.
-5. Post-layout ngspice simulations.
-6. Find problem in the DRC section of the old magic tech file for the skywater process and fix them.
 
-* Section 3 - Tasks 1 to 5 files, reports and logs can be found in the following folder:
+**Fall Transition:** The time taken by the output waveform to transit from a value of 80% of the maximum value to the 20 % of the maximum value.
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_30_2024 12_44_16 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/42db019b-45d7-456d-a4ad-c25fa84b033e)
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_30_2024 12_43_55 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/3bc6033f-19f2-4335-85e6-6608deb44569)
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_30_2024 12_43_21 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/02d4c66f-a20b-4c88-b300-06dd36055676)
 
-[Section 3 - Tasks 1 to 5 \(vsdstdcelldesign\)](https://github.com/fayizferosh/advanced-pd-using-openlane-sky130/tree/main/Desktop/work/tools/openlane_working_dir/openlane/vsdstdcelldesign)
+Therefore the fall transition time = (4.09557 - 4.05304)ns = 0.04253ns 
 
-* Section 3 - Task 6 files, reports and logs can be found in the following folder:
 
-[Section 3 - Task 6 \(drc_tests\)](https://github.com/fayizferosh/advanced-pd-using-openlane-sky130/tree/main/drc_tests)
 
-#### 1. Clone custom inverter standard cell design from github repository
 
-```bash
-# Change directory to openlane
-cd Desktop/work/tools/openlane_working_dir/openlane
+**Rise Cell Delay /Rise Propagation Delay:** It is the diffrence time taken by Output to rise to 50% & Time taken by Input to fall to 50%
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_30_2024 12_55_23 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/98f90509-f61c-4bd9-87ed-7120aee8abeb)
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_30_2024 12_55_43 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/99fef724-adb7-4cb8-8ff4-eab3a4e961f9)
+Therefor, Rise cell delay = (4.07805 - 4.05005)ns = 0.028ns
 
-# Clone the repository with custom inverter design
-git clone https://github.com/nickson-jose/vsdstdcelldesign
 
-# Change into repository directory
-cd vsdstdcelldesign
+**Fall Cell Delay/ Fall Propagation Delay:** It is the difference time taken by Output to fall to 50% & Time taken by Input to rise to 50%
+<br> similar to above we calculate the fall dealy
 
-# Copy magic tech file to the repo directory for easy access
-cp /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech .
 
-# Check contents whether everything is present
-ls
+### Task-4
+#### Identifying DRC errors in downloaded magic design & rectifying them:
 
-# Command to open custom inverter layout in magic
-magic -T sky130A.tech sky130_inv.mag &
-```
+Here we will download some deigns which have DRC errors and correct them as [the rules](https://skywater-pdk.readthedocs.io/en/main/rules/periphery.html)
+<br><br>
+We will download designs from [open circuits archive](http://opencircuitdesign.com/open_pdks/archive/drc_tests.tgz) following the below steps,
 
-Screenshot of commands run
 
-![Screenshot from 2024-03-19 00-22-27](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/8f304929-a190-4aa1-9cc4-b8fefa1909e8)
+   
+      // we will download it in home directory
+      cd 
+      wget http://opencircuitdesign.com/open_pdks/archive/drc_tests.tgz
+      // to extract the compressed file
+      tar xfz drc_tests.tgz
+      cd drc_tests
+      // to list all the compnents of the folder
+      ls -al
+      // to open magic in better quality
+      magic -d XR &
 
-#### 2. Load the custom inverter layout in magic and explore.
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_30_2024 3_36_22 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/dd8e73dd-6fc7-40ed-a261-b48a6046a0a3)
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_30_2024 3_36_33 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/997df863-f060-4c5e-bb3a-b5f0fb86b581)
 
-Screenshot of custom inverter layout in magic
 
-![Screenshot from 2024-03-19 00-22-44](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/6eae887c-ebc6-4771-8bcc-e4edaf9947d9)
+#### DRC failure to identify poly to polyresistor distance violation
 
-NMOS and PMOS identified
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_30_2024 5_55_13 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/d74968d2-e373-4e22-82f3-5a24f8d4ffcd)
+As we can see in the above image even tough the height of the box or distance between poly & polyresisitor is 21um, we are not getting a DRC error(incorrect poly.9), we need to rectify it.
 
-![Screenshot from 2024-03-19 00-28-03](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/eada5c8b-154c-4eea-819c-d49f89495acb)
-![Screenshot from 2024-03-19 00-29-14](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/dec7e465-8fd0-45d5-bac6-10de1acb8c76)
+Then to load the newly edited tech file into magic use the below code in `tkcon` window of magic,
+      
+      
+     
+      tech load sky130A.tech
+      drc check
 
-Output Y connectivity to PMOS and NMOS drain verified
-
-![Screenshot from 2024-03-19 00-31-17](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/e16fb883-907e-437a-b8d8-1b9d1b2e67a6)
-
-PMOS source connectivity to VDD (here VPWR) verified
-
-![Screenshot from 2024-03-19 00-34-11](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/173efda1-d5d1-49d9-a040-771092b1e55b)
-
-NMOS source connectivity to VSS (here VGND) verified
-
-![Screenshot from 2024-03-19 00-36-09](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/107a8e0b-43de-4b5d-90fe-516ea83673b1)
-
-Deleting necessary layout part to see DRC error
-
-![Screenshot from 2024-03-19 01-10-28](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/861912e4-eef9-4226-b563-db7f49ca6632)
-
-#### 3. Spice extraction of inverter in magic.
-
-Commands for spice extraction of the custom inverter layout to be used in tkcon window of magic
-
-```tcl
-# Check current directory
-pwd
-
-# Extraction command to extract to .ext format
-extract all
-
-# Before converting ext to spice this command enable the parasitic extraction also
-ext2spice cthresh 0 rthresh 0
-
-# Converting to ext to spice
-ext2spice
-```
-
-Screenshot of tkcon window after running above commands
-
-![Screenshot from 2024-03-19 01-24-17](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/831b0be9-3c02-4bbb-800e-6f1c3dc1ba1a)
-
-Screenshot of created spice file
-
-![Screenshot from 2024-03-19 01-27-07](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/2c645f55-c4d5-4007-8b9c-73ba8a8e5bcb)
-
-#### 4. Editing the spice model file for analysis through simulation.
-
-Measuring unit distance in layout grid
-
-![Screenshot from 2024-03-19 01-30-15](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/74335564-b7a6-4b7d-b4b7-bb251c8d790b)
-
-Final edited spice file ready for ngspice simulation
-
-![Screenshot from 2024-03-19 14-50-54](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/b5d20507-b65e-4b54-ba8e-576fb4d09429)
-![Screenshot from 2024-03-19 14-51-16](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/9cd17c95-de5b-48da-b8bc-2ee0c30915ef)
-
-#### 5. Post-layout ngspice simulations.
-
-Commands for ngspice simulation
-
-```bash
-# Command to directly load spice file for simulation to ngspice
-ngspice sky130_inv.spice
-
-# Now that we have entered ngspice with the simulation spice file loaded we just have to load the plot
-plot y vs time a
-```
-
-Screenshots of ngspice run
-
-![Screenshot from 2024-03-19 14-56-42](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/c023ebb0-756f-4707-ae82-a28746f372da)
-![Screenshot from 2024-03-19 14-57-22](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/addefe5e-6a9a-44f2-943a-4a9373ddc56c)
-
-Screenshot of generated plot
-
-![Screenshot from 2024-03-19 14-58-55](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/dd14a5d5-ffd9-4ad8-a871-e32af61362a3)
-
-Rise transition time calculation
-
-```math
-Rise\ transition\ time = Time\ taken\ for\ output\ to\ rise\ to\ 80\% - Time\ taken\ for\ output\ to\ rise\ to\ 20\%
-```
-```math
-20\%\ of\ output = 660\ mV
-```
-```math
-80\%\ of\ output = 2.64\ V
-```
-
-20% Screenshots
-
-![Screenshot from 2024-03-19 15-15-02](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/261c420f-219f-4c26-ae32-6c0db82a722e)
-![Screenshot from 2024-03-19 15-20-04](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/bbb078c4-b3aa-436b-8832-23e5d7777081)
-
-80% Screenshots
-
-![Screenshot from 2024-03-19 15-23-34](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/d10a0ff1-0523-4fe4-96f4-eefc63f647f7)
-![Screenshot from 2024-03-19 15-24-13](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/929042ad-2032-49aa-ae07-2a2163b9603e)
-
-```math
-Rise\ transition\ time = 2.24638 - 2.18242 = 0.06396\ ns = 63.96\ ps
-```
-
-Fall transition time calculation
-
-```math
-Fall\ transition\ time = Time\ taken\ for\ output\ to\ fall\ to\ 20\% - Time\ taken\ for\ output\ to\ fall\ to\ 80\%
-```
-```math
-20\%\ of\ output = 660\ mV
-```
-```math
-80\%\ of\ output = 2.64\ V
-```
-
-20% Screenshots
-
-![Screenshot from 2024-03-19 15-34-22](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/0180052c-4b8c-4bd8-928c-cd8ab34d5a17)
-![Screenshot from 2024-03-19 15-34-34](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/83760cf7-18c9-45d1-8063-04baafe1dd1f)
-
-80% Screenshots
-
-![Screenshot from 2024-03-19 15-36-29](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/7bc0eeee-c7cd-464e-a90b-cac8d4f83144)
-![Screenshot from 2024-03-19 15-36-41](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/9a7dc3b0-9936-4704-97cd-1cd03cc6a8cb)
-
-```math
-Fall\ transition\ time = 4.0955 - 4.0536 = 0.0419\ ns = 41.9\ ps
-```
-
-Rise Cell Delay Calculation
-
-```math
-Rise\ Cell\ Delay = Time\ taken\ for\ output\ to\ rise\ to\ 50\% - Time\ taken\ for\ input\ to\ fall\ to\ 50\%
-```
-```math
-50\%\ of\ 3.3\ V = 1.65\ V
-```
-
-50% Screenshots
-
-![Screenshot from 2024-03-19 16-02-35](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/e34363cd-a70f-4939-b8e5-efb10620ce93)
-![Screenshot from 2024-03-19 16-03-46](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/f7452b60-3612-4bcf-a71d-b8ff021d5297)
-
-```math
-Rise\ Cell\ Delay = 2.21144 - 2.15008 = 0.06136\ ns = 61.36\ ps
-```
-
-Fall Cell Delay Calculation
-
-```math
-Fall\ Cell\ Delay = Time\ taken\ for\ output\ to\ fall\ to\ 50\% - Time\ taken\ for\ input\ to\ rise\ to\ 50\%
-```
-```math
-50\%\ of\ 3.3\ V = 1.65\ V
-```
-
-50% Screenshots
-
-![Screenshot from 2024-03-19 16-09-08](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/3d2ff2e5-dab6-497a-b5a4-74959f69c2a2)
-![Screenshot from 2024-03-19 16-10-03](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/aa88c26b-0cc4-4cf7-80d7-b2058e8fbc47)
-
-```math
-Fall\ Cell\ Delay = 4.07 - 4.05 = 0.02\ ns = 20\ ps
-```
-
-#### 6. Find problem in the DRC section of the old magic tech file for the skywater process and fix them.
-
-Link to Sky130 Periphery rules: [https://skywater-pdk.readthedocs.io/en/main/rules/periphery.html](https://skywater-pdk.readthedocs.io/en/main/rules/periphery.html)
-
-Commands to download and view the corrupted skywater process magic tech file and associated files to perform drc corrections
-
-```bash
-# Change to home directory
-cd
-
-# Command to download the lab files
-wget http://opencircuitdesign.com/open_pdks/archive/drc_tests.tgz
-
-# Since lab file is compressed command to extract it
-tar xfz drc_tests.tgz
-
-# Change directory into the lab folder
-cd drc_tests
-
-# List all files and directories present in the current directory
-ls -al
-
-# Command to view .magicrc file
-gvim .magicrc
-
-# Command to open magic tool in better graphics
-magic -d XR &
-```
-
-Screenshots of commands run
-
-![Screenshot from 2024-03-21 22-33-57](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/1b4cf68e-fa83-4d44-9b08-ca2b63ceb471)
-![Screenshot from 2024-03-21 22-34-09](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/1bc14ddb-feb6-4052-bc12-0f018f09c343)
-
-Screenshot of .magicrc file
-
-![Screenshot from 2024-03-21 22-35-58](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/89b46a0f-63b7-445c-bf2b-e6cda16853c7)
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_30_2024 8_18_48 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/d905d0dd-6200-48d2-ac5a-5cdb475b3b6e)
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_30_2024 8_21_03 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/7b0533ee-9324-4428-9f3b-1f2f173c22c3)
+As we can see magic is identifying the DRC violations.
 
 **Incorrectly implemented poly.9 simple rule correction**
 
@@ -1642,7 +1444,8 @@ run_routing
 
 Screenshots of routing run
 
-![Screenshot from 2024-03-26 14-48-29](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/f166be26-f49a-4001-abee-ce395857990f)
+![Screenshot from 2024-03-28 20-00-15](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/b68a16d6-0b57-4fd5-81bd-6a7745bb8377)
+
 ![Screenshot from 2024-03-26 15-38-39](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/c0c8f372-0293-4fdd-a0a3-691f164e7bed)
 ![Screenshot from 2024-03-26 15-29-38](https://github.com/fayizferosh/soc-design-and-planning-nasscom-vsd/assets/63997454/70a99289-06ea-4eb8-b3b0-4147395c6f9c)
 
