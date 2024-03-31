@@ -300,49 +300,49 @@ now we can open the downloaded vsdstdcell inverter using magic tool,
 
       cd Desktop/work/tools/openlane_working_dir/openlane/vsdstdcelldesign
       magic -T sky130A.tech sky130_inv.mag &
-![vsdworkshop  Running  - Oracle VM VirtualBox 3_29_2024 3_07_38 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/6a7dd1f6-8836-467b-a9a0-1660831de442)
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_29_2024 3_07_38 PM]![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/107c1a44-3421-40e1-94bf-ce6138c61ad9)
+
 
 ### Verifying the different layers & connection of the inverter:
 
 To know about a layer, place your cursor on it and press `s` from your keyboard, which will select the layer/cell, now type `what` in `tkcon` window of magic, it will give the name of the layer. 
 
-![vsdworkshop  Running  - Oracle VM VirtualBox 3_29_2024 8_01_57 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/e617479b-38a2-4f1e-aa2f-d0cfd52cc2ea)
-![vsdworkshop  Running  - Oracle VM VirtualBox 3_29_2024 8_19_19 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/24eb9790-be42-444d-ad42-4d4c8809a4f7)
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_29_2024 8_01_57 PM]![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/eb79f204-a5b5-4f93-a56d-45b9b0bede0a)
+
 To verify or know about the connectivity of a layer, place your cursor on the layer and press `s` twice or thrice, magic will highlight all the connections of the desired layer.
 
 
 Verifying the connectivity of output with the drain of PMOS & NMOS
-![vsdworkshop  Running  - Oracle VM VirtualBox 3_29_2024 8_21_43 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/cc969c7c-b5b6-4a55-8096-4cd87e5228f8)
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_29_2024 8_21_43 PM]![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/7aacaa60-52d4-4c58-bbc8-b5f8de3b7965)
+
 
 
 Verifying the connectivity of source of PMOS to Vdd
-![vsdworkshop  Running  - Oracle VM VirtualBox 3_29_2024 8_22_00 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/fe69c136-3cef-422c-8dc6-11a1f4b90988)
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_29_2024 8_22_00 PM]![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/af1527ea-da16-4406-975e-330daefa1601)
+
 
 ### DRC error in Magic
 
 Whenever a DRC error occurs, find the error by navigating to `DRC` in magic and clicking on `DRC Find next error`, the tkcon window will display what error we have & according to that design needs to be corrected.
 
-![vsdworkshop  Running  - Oracle VM VirtualBox 3_29_2024 9_42_54 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/14a473eb-bc9e-4f8a-8945-8e2b482b69d9)
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_29_2024 9_42_54 PM]![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/5c1dc88f-7bfd-4466-ad91-ebbb77c38790)
+
 
 
 DRC error being highlighted
-![vsdworkshop  Running  - Oracle VM VirtualBox 3_29_2024 9_43_04 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/be0a4ec7-bf2c-4318-9a06-65f84de62235)
-
-
-`tkcon` window showing the error.
-![vsdworkshop  Running  - Oracle VM VirtualBox 3_29_2024 9_43_10 PM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/0a319b14-0fd8-4534-8ef5-c7733f261cda)
-
-
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_29_2024 9_43_04 PM]![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/6c6f4e32-789f-41b2-be26-75eabee157b3)
 
 ### SPICE extraction of inverter
 
 To know in which which directory our tkcon window is opened used `pwd` command. Then use the command `extract all` command in tkcon window, this will create a new `.ext` in the same directory.
 
-![vsdworkshop  Running  - Oracle VM VirtualBox 3_30_2024 10_27_43 AM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/8e54c161-3ba3-453e-9a78-6b859fe3c6f9)
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_30_2024 10_27_43 AM]![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/a7ac6390-4287-44da-ab51-700763d0d3ef)
+
 
 
 Verifying weather `.ext` file has been created or not.
-![vsdworkshop  Running  - Oracle VM VirtualBox 3_30_2024 10_27_51 AM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/c7e44a72-1454-4ffc-bf13-8d16ada01bc0)
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_30_2024 10_27_51 AM]![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/0621a4b5-6536-444e-9a6a-cbc44193bdd8)
+
 
 
 
@@ -353,11 +353,13 @@ To get SPICE of `.spice` format, we use the following commands
       ext2spice
 
 To open the SPICE file, use the command `less (file name)`
-![vsdworkshop  Running  - Oracle VM VirtualBox 3_30_2024 10_34_41 AM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/c6e3931c-fb2b-4818-928a-171819e4922d)
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_30_2024 10_34_41 AM]![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/ced6dba1-ed2f-4850-bdf1-fa7696928ffd)
+
 
 
 To measure the size of unit grid box in magic, select one grid box & use the command `box` in `tkcon` window, whose output will look like the below image
-![vsdworkshop  Running  - Oracle VM VirtualBox 3_30_2024 10_54_46 AM](https://github.com/tejasbg19/VSDIAT_Advanced_Physical_Design_Using_Skywater130nm_PDK/assets/163899793/22e8c79f-d856-45f9-a766-19e26a5cbdf8)
+![vsdworkshop  Running  - Oracle VM VirtualBox 3_30_2024 10_54_46 AM]![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/69edf9a3-fb9f-403f-8a97-27304e73bbd3)
+
 
 
 ### Editing the SPICE file
