@@ -110,37 +110,16 @@ To list the tools and PDKs we will be using, follow these steps in your terminal
 ![vsdworkshop  Running  - Oracle VM VirtualBox 3_28_2024 10_31_20 AM]![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/ef50c22e-12cb-4ea6-b6d1-499dac790d76)
 
 
-
-
-
-2. To list all the PDKs:
-   ```bash
-   cd Desktop/
-   cd work/
-   cd tools/
-   cd openlane_working_dir/
-   cd pdks/
-   ls -ltr
-![Screenshot 3_28_2024 10_47_16 AM]![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/4a0ae4b5-3f72-4975-a1c2-3a12c27ac03d)
-
-
-
-
-
-3. Whatever work we will be doing, it will be in the openlane directory, to open it follow the below steps in terminal,
+2. Whatever work we will be doing, it will be in the openlane directory, to open it follow the below steps in terminal,
    ```bash
    cd Desktop/
    cd work/
    cd tools/
    cd openlane_working_dir/
    cd openlane/
-![Captures 3_28_2024 10_58_25 AM]![image](https://github.com/iamavi07/PHYSICAL-DESIGN-USING-OPENLANE-SKY130/assets/122794054/9ce83900-b55d-40ee-b6df-a9939e3e8a61)
 
 
-   
-
-
-4. To run OpenLane in interactive mode follow the following steps after opening the openlane directory as shown in above image:
+3. To run OpenLane in interactive mode follow the following steps after opening the openlane directory as shown in above image:
    ```bash
    docker
    pwd
